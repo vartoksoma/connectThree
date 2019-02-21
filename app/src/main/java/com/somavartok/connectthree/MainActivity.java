@@ -33,14 +33,22 @@ public class MainActivity extends AppCompatActivity {
 
             counter.animate().translationYBy(1000f).setDuration(300);
         }
-        if (checkWin() != null){
-            String winnerText = checkWin() + " won!";
+        if (checkWin() != null) {
             LinearLayout winnerLayout = findViewById(R.id.playAgainLayout);
             TextView winnerMessage = findViewById(R.id.winnerMassage);
-            winnerMessage.setText(winnerText);
+            winnerMessage.setText(checkWin());
             winnerLayout.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    public boolean isDraw() {
+        for (int i : counterList) {
+            if (i == 2) {
+                return false;
+            }
+        }
+        return true;
     }
 
     int[][] winningPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
@@ -51,17 +59,20 @@ public class MainActivity extends AppCompatActivity {
                     && (counterList[winningPosition[1]] == counterList[winningPosition[2]])
                     && (counterList[winningPosition[0]] != 2)) {
                 if (counterList[winningPosition[0]] == 0) {
-                    return "Yellow";
+                    return "Yellow won!";
 
                 } else {
-                    return "Red";
+                    return "Red won!";
                 }
             }
+        }
+        if (isDraw()) {
+            return "It is a Draw!";
         }
         return null;
     }
 
-    public void playAgain(View view){
+    public void playAgain(View view) {
 
         LinearLayout winningLayout = findViewById(R.id.playAgainLayout);
         winningLayout.setVisibility(View.INVISIBLE);
@@ -71,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             counterList[i] = 2;
         }
         GridLayout gridLayout = findViewById(R.id.gridLayout);
-        for(int i = 0; i < gridLayout.getChildCount(); i++){
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
             ((ImageView) gridLayout.getChildAt(i)).setImageResource(0);
         }
     }
