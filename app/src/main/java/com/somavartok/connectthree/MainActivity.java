@@ -16,11 +16,13 @@ public class MainActivity extends AppCompatActivity {
     // 2 = unplayed
     int[] counterList = {2, 2, 2, 2, 2, 2, 2, 2, 2};
 
+    boolean gameIsActive = true;
+
     public void dropIn(View view) {
 
         ImageView counter = (ImageView) view;
         int tappedCounter = Integer.parseInt(view.getTag().toString());
-        if (counterList[tappedCounter] == 2) {
+        if (counterList[tappedCounter] == 2 && gameIsActive) {
             counterList[tappedCounter] = activePlayer;
             counter.setTranslationY(-1000f);
             if (activePlayer == 0) {
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
             counter.animate().translationYBy(1000f).setDuration(300);
         }
         if (checkWin() != null) {
+            gameIsActive = false;
             LinearLayout winnerLayout = findViewById(R.id.playAgainLayout);
             TextView winnerMessage = findViewById(R.id.winnerMassage);
             winnerMessage.setText(checkWin());
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void playAgain(View view) {
+
+        gameIsActive = true;
 
         LinearLayout winningLayout = findViewById(R.id.playAgainLayout);
         winningLayout.setVisibility(View.INVISIBLE);
